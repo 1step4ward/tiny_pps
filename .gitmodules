@@ -1,0 +1,3 @@
+[submodule "proto1/software/firmware/lib/AP33772"]
+	path = proto1/software/firmware/lib/AP33772
+	url = https://github.com/1step4ward/AP33772-Cpp.git
