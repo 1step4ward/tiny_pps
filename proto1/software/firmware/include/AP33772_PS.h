@@ -52,7 +52,7 @@ public:
 
   AP33772_PS_ER getCurrent(int &current);
 
-  AP33772* getRawCtrl();
+  AP33772* getLowCtrl();
 
 
 private:

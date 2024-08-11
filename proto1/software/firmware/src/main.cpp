@@ -42,15 +42,14 @@ int mode = 0;
  */
 void printPDO_PPS()
 {
-    byte numPDO = usbpd.getRawCtrl()->getNumPDO();
-    PDO_DATA_T* pdoData = usbpd.getRawCtrl()->getPdoData();
+    byte numPDO = usbpd.getLowCtrl()->getNumPDO();
+    PDO_DATA_T* pdoData = usbpd.getLowCtrl()->getPdoData();
     for (byte i = 0; i < numPDO; i++)
     {
         if ((pdoData[i].byte3 & 0xF0) == 0xC0) // PPS PDO
         {
-            display.print("[");
             display.print(i + 1); // PDO position start from 1
-            display.print("]:");
+            display.print(":");
             display.print((float)(pdoData[i].pps.minVoltage) * 100 / 1000);
             display.print("V~");
             display.print((float)(pdoData[i].pps.maxVoltage) * 100 / 1000);
@@ -81,6 +80,8 @@ void setup()
   pinMode(19, INPUT_PULLUP);
   pinMode(22, INPUT_PULLUP);
 
+  Serial.begin(115200);
+
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
     Serial.println(F("SSD1306 allocation failed"));
@@ -93,8 +94,6 @@ void setup()
   display.setCursor(0,0);             // Start at top-left corner
   display.println("initializing...");
   display.display();
-
-  Serial.begin(115200);
 
   usbpd.begin(); // Start pulling the PDOs from power supply
 
@@ -203,46 +202,29 @@ void loop()
   usbpd.setOperatingCurrent(current);
   usbpd.setVoltage(voltage);
   
-  Serial.print(button);
   display.print(button);
   if (mode == 0) {
-    Serial.print("[V]");
     display.print("[V]");
   } else {
-    Serial.print("[C]");
     display.print("[C]");
   }
   usbpd.getOutput(enable);
   if (enable) {
-    Serial.println("[ON]");
     display.println("[ON]");
   } else {
-    Serial.println("[OFF]");
     display.println("[OFF]");
   }
   printPDO_PPS();
-  Serial.print("W (V): ");
   display.print("W (V): ");
-  Serial.print((float)voltage / 1000);
-  display.print((float)voltage / 1000);
-  Serial.print(":");
-  display.print(":");
-  Serial.println((float)minVoltage / 1000);
-  display.println((float)minVoltage / 1000);
-  Serial.print("W (A): ");                                                                                                                                                               
+  display.println((float)voltage / 1000);
   display.print("W (A): ");
-  Serial.println((float)current / 1000);
   display.println((float)current / 1000);
 
-  Serial.print("R (V): ");
   display.print("R (V): ");
-  Serial.println((float)usbpd.getRawCtrl()->readVoltage() / 1000);
-  display.println((float)usbpd.getRawCtrl()->readVoltage() / 1000);
-  Serial.print("R (A): ");                                                                                                                                                               
+  display.println((float)usbpd.getLowCtrl()->readVoltage() / 1000);
   display.print("R (A): ");
   int rcurrent;
   usbpd.getCurrent(rcurrent);
-  Serial.println((float)rcurrent / 1000);
   display.println((float)rcurrent / 1000);
 
   display.display();

@@ -66,7 +66,7 @@ AP33772_PS_ER AP33772_PS::begin()
     }
   }
 
-  m_baseCurrent = getRawCtrl()->readCurrent();
+  m_baseCurrent = getLowCtrl()->readCurrent();
   m_isInit = true;
   return AP33772_PS_OK;
 }
@@ -134,7 +134,7 @@ AP33772_PS_ER AP33772_PS::setOperatingCurrent(int current)
 {
   if (!m_isInit) return AP33772_PS_INIT_NG;
 
-  m_operatingCurrent = current;
+  m_operatingCurrent = current + m_baseCurrent;
 
   updateControl();
   return AP33772_PS_OK;
@@ -148,7 +148,7 @@ AP33772_PS_ER AP33772_PS::getOperatingCurrent(int &current)
 {
   if (!m_isInit) return AP33772_PS_INIT_NG;
 
-  current = m_operatingCurrent;
+  current = m_operatingCurrent - m_baseCurrent;
 
   return AP33772_PS_OK;
 }
@@ -246,7 +246,7 @@ AP33772_PS_ER AP33772_PS::getCurrent(int &current)
 {
   if (!m_isInit) return AP33772_PS_INIT_NG;
 
-  current = getRawCtrl()->readCurrent() - m_baseCurrent;
+  current = getLowCtrl()->readCurrent() - m_baseCurrent;
 
   return AP33772_PS_OK;
 }
@@ -254,7 +254,7 @@ AP33772_PS_ER AP33772_PS::getCurrent(int &current)
 /**
  * @brief Update actual control for AP33772
  */
-AP33772* AP33772_PS::getRawCtrl()
+AP33772* AP33772_PS::getLowCtrl()
 {
   return m_ap33772;
 }
