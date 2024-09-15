@@ -19,9 +19,10 @@ https://hackaday.io/project/192576-picopd-usb-c-pd-30-pps-trigger-with-rp2040
 - Raspberry Pi Pico（代替品を使用）  
 - [0.96インチ 128×64ドット有機ELディスプレイ(OLED) 白色](https://akizukidenshi.com/catalog/g/g112031/)  
 - [タクトスイッチ](https://akizukidenshi.com/catalog/g/g112224)、[キートップ](https://akizukidenshi.com/catalog/g/g112429/)  
-- パワーMOSFET IRFZ44N
-- コンデンサ
+- パワーMOSFET IRFZ44N  
+- コンデンサ  
 
+出力のON/OFF回路部にパワーMOSFET、コンデンサを使用していますが、知識が乏しく適切な使用じゃないかもしれません。
 
 ### ・仕様
 | 項目 | 数値 |
