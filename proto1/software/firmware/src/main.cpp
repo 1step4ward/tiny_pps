@@ -115,8 +115,8 @@ void loop()
   display.setCursor(0,0);             // Start at top-left corner
 
   PinStatus lbutton, rbutton, mbutton;
-  lbutton = digitalRead(18);
-  rbutton = digitalRead(22);
+  lbutton = digitalRead(22);
+  rbutton = digitalRead(18);
   mbutton = digitalRead(19);
 
   if (mode == 0) {
